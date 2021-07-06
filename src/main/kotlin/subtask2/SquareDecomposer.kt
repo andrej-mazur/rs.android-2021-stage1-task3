@@ -2,8 +2,23 @@ package subtask2
 
 class SquareDecomposer {
 
-    // TODO: Complete the following function
     fun decomposeNumber(number: Int): Array<Int>? {
-        throw NotImplementedError("Not implemented")
+        return decomposeNumber(number, squared(number))
     }
+
+    private fun decomposeNumber(number: Int, remainder: Long): Array<Int>? {
+        for (i in (1 until number).reversed()) {
+            val squaredI = squared(i)
+            if (remainder == squaredI) {
+                return arrayOf(i)
+            } else if (remainder > squaredI) {
+                decomposeNumber(i, remainder - squaredI)?.let { array ->
+                    return array + arrayOf(i)
+                }
+            }
+        }
+        return null
+    }
+
+    private fun squared(i: Int) = (i).toLong() * (i).toLong()
 }
