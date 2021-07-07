@@ -9,16 +9,21 @@ class SquareDecomposer {
     private fun decomposeNumber(number: Int, remainder: Long): Array<Int>? {
         for (i in (1 until number).reversed()) {
             val squaredI = squared(i)
-            if (remainder == squaredI) {
-                return arrayOf(i)
-            } else if (remainder > squaredI) {
-                decomposeNumber(i, remainder - squaredI)?.let { array ->
-                    return array + arrayOf(i)
+            when {
+                remainder == squaredI -> {
+                    return arrayOf(i)
+                }
+                remainder > squaredI -> {
+                    decomposeNumber(i, remainder - squaredI)?.let { resultArray ->
+                        return resultArray + i
+                    }
                 }
             }
         }
         return null
     }
 
-    private fun squared(i: Int) = (i).toLong() * (i).toLong()
+    companion object {
+        private fun squared(i: Int) = (i).toLong() * (i).toLong()
+    }
 }
